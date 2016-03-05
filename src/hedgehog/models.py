@@ -34,6 +34,28 @@ class Account(models.Model):
         verbose_name = _('account')
         verbose_name_plural = _('accounts')
 
+class Balance(models.Model):
+    account = models.ForeignKey(to=Account, verbose_name=_("account"))
+    date = models.DateTimeField(_("date"), auto_now=True)
+    amount = models.DecimalField(_("amount"))
+
+    class Meta:
+        verbose_name = _("balance")
+        verbose_name_plural = _("balances")
+
+
+CATEGORY_TYPE = [
+    ("recurrent", _("recurrent")),
+    ("exceptional", _("exceptional")),
+    ("variable", _("variable")),
+]
+
+
+class Category(models.Model):
+    name = models.CharField(_("name"))
+    category_type = models.CharField(_("name"), choices=CATEGORY_TYPE)
+
+
 MEANS = [
     ("CHECK", _("check")),
     ("CACH", _("cash")),
@@ -44,6 +66,7 @@ MEANS = [
 CURRENCY = [
     ("EUR", "€"),
 ]
+
 
 class Entry(models.Model):
     amount = models.DecimalField(_("amount"), decimal_places=2, max_digits=14)
@@ -61,3 +84,7 @@ class Entry(models.Model):
     class Meta:
         verbose_name = _('entry')
         verbose_name_plural = _('entrys')
+
+
+class Budget(models.Model):
+    pass
